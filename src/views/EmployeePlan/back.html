@@ -1,0 +1,43 @@
+<div class="accordion acordian-scroll" id="external-events">
+    <div class="card" v-for="job in jobs" :key="job.pivot.id">
+      <div class="card-header" :href="job.pivot.id" style="text-decorations:none">
+        <h3 class="mb-0">
+          <section
+            class="btn btn-link"
+            type="button"
+            data-toggle="collapse"
+            :data-target="'#'+job.pivot.id"
+            aria-expanded="false"
+            :aria-controls="job.pivot.id"
+          >
+            <div
+              data-toggle="tooltip"
+              :title="job.job_description"
+              class="job-title"
+            >
+              <div>{{job.job_no}} {{job.customer_name ? '-' + job.customer_name : '' }}</div>
+              <div>{{job.job_description.slice(0,30)}} {{job.job_description.length > 30 ? '...' : ''}}</div>
+              <!-- {{job.job_no}} - {{job.job_description}} -->
+            </div>
+          </section>
+        </h3>
+      </div>
+
+      <div
+        :id="job.pivot.id"
+        class="collapse"
+        :aria-labelledby="job.pivot.id"
+        data-parent="#external-events"
+      >
+        <div
+          class="fc-event"
+          v-bind:class="{ 'qc-task': task.qc_id == 0 }"
+          :data-color="task.qc_id == 0 ? '#ff7513' : '#3795d8'"
+          v-for="task in job.tasks"
+          :key="task.id"
+          :data-event="task"
+          @mousedown="taskClick(task)"
+        >{{task.task_no + ' - ' + task.task_name}}</div>
+      </div>
+    </div>
+  </div>
